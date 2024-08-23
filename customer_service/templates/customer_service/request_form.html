@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block title %}Submit a Service Request{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+    <h1 class="mb-4 text-center">Submit a Service Request</h1>
+
+    <form method="post" enctype="multipart/form-data" class="needs-validation bg-info py-4 px-5 rounded rounded-4 mb-3" novalidate>
+        {% csrf_token %}
+        
+        <!-- Loop through form fields and apply Bootstrap classes -->
+        <div class="mb-3">
+            {{ form.non_field_errors }}
+            {% for field in form %}
+            <div class="mb-3">
+                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                {{ field|add_class:"form-control" }}
+                {% if field.help_text %}
+                <div class="form-text">{{ field.help_text }}</div>
+                {% endif %}
+                {% if field.errors %}
+                <div class="invalid-feedback">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn-danger">Submit</button>
+    </form>
+</div>
+</div>
+{% endblock %}

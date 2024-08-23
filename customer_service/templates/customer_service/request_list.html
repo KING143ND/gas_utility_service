@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Service Requests{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-3 text-center">Your Service Requests</h1>
+
+    {% if requests %}
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="table-danger">
+                <tr>
+                    <th scope="col">Service Type</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Last Updated</th>
+                    <th scope="col">Created At</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in requests %}
+                <tr class="{% if request.status == 'In Progress' %}table-warning{% elif request.status == 'Resolved' %}table-success{% elif request.status == 'Submitted' %}table-primary{% endif %}">
+                    <td>{{ request.service_type }}</td>
+                    <td>{{ request.status }}</td>
+                    <td>{{ request.updated_at|date:"F j, Y, g:i a" }}</td>
+                    <td>{{ request.created_at|date:"F j, Y, g:i a" }}</td>
+                    <td><a href="{% url 'request_detail' request.pk %}" class="btn btn-primary">View Details</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center mt-4">
+        <a href="{% url 'submit_request' %}" class="btn btn-success">Submit a New Request</a>
+    </div>
+    {% else %}
+    <p class="text-center">No requests found. <a href="{% url 'submit_request' %}" class="btn btn-success">Submit a new request</a>.</p>
+    {% endif %}
+</div>
+{% endblock %}

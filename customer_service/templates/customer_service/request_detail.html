@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block title %}Request Details{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 bg-primary-subtle rounded rounded-4 m-3 border border-dark">
+<h1 class="mb-4 text-center">Request Details</h1>
+<p><b>Service Type:</b> {{ request.service_type }}</p>
+<p><b>Description:</b> {{ request.description }}</p>
+<p><b>Status:</b> {{ request.status }}</p>
+<p><b>Created At:</b> {{ request.created_at }}</p>
+<p><b>Updated At:</b> {{ request.updated_at }}</p>
+{% if request.attached_file %}
+<p><b>Attached File:</b> <a href="{% url 'download_file' request.attached_file.name|basename %}" class="btn btn-danger">Download</a></p>
+{% endif %}
+</div>
+</div>
+{% endblock %}
